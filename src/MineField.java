@@ -167,7 +167,7 @@ public class MineField {
             } else {
                 // show num of mines aroundgit i
                 // check mines algo here
-                // work  work ...
+                // work on BBBBBBBBBBBB
             }
         } else if (inputs[2].equals("PLACE_FLAG")) {
             field[xEnteredCord][yEnteredCord] = "X";
