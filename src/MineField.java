@@ -35,19 +35,19 @@ public class MineField {
 
     private static int length;
     private static int width;
-    private static int numOfMine;
+    static int numOfMine;
     private String[][] field;
     private Set<coordiate> mineCoordiate = new HashSet<>();
 
-    private final Set<String> allowedActions = new HashSet<String>(){{
+    private final Set<String> allowedActions = new HashSet<String>() {{
         add("CLICK");
         add("PLACE_FLAG");
     }};
 
     class types {
         String clickable = "o";
-        String flag      = "F";
-        String mine      = "X";
+        String flag = "F";
+        String mine = "X";
         //number is also a type but no need to define specifically
     }
 
@@ -60,7 +60,7 @@ public class MineField {
             this.y = y;
         }
 
-        public String toString(){
+        public String toString() {
             return "x = " + x + "; y = " + y;
         }
     }
@@ -78,9 +78,9 @@ public class MineField {
         Scanner input = new Scanner(System.in);
         int[] nums = new int[3];
 
-        while ( (!(isBetween(nums[0], 3, 10)) ||
-                (!(isBetween(nums[1], 3, 10)) ||
-                (!(isBetween(nums[2], 1, (int) (nums[0]*nums[1]*0.3))))))) {
+        while ((!(Utils.isBetween(nums[0], 3, 10)) ||
+                (!(Utils.isBetween(nums[1], 3, 10)) ||
+                        (!(Utils.isBetween(nums[2], 1, (int) (nums[0] * nums[1] * 0.3))))))) {
 
             System.out.println("Enter new values.");
             for (int i = 0; i < nums.length; i++) {
@@ -131,21 +131,6 @@ public class MineField {
         System.out.println(Arrays.deepToString(field));
     }
 
-    public void displayField() {
-        //TODO
-        //Call this method and print out the current field
-        //hint write code to nicely display this.field
-
-        System.out.println("Here is your field:");
-
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < width; j++) {
-                System.out.print(field[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
     public void enter() {
         //TODO
         //enter your action to specific place in the field and this should alter the field
@@ -155,19 +140,19 @@ public class MineField {
         Scanner input = new Scanner(System.in);
         String[] inputs = new String[3];
 
-         do {
+        do {
             System.out.println("Enter next command.");
             for (int i = 0; i < inputs.length; i++) {
-                if ( i == 0 || i == 1){
+                if (i == 0 || i == 1) {
                     inputs[i] = String.valueOf(input.nextInt());
                 } else {
                     inputs[i] = input.next();
                 }
             }
             System.out.println("Command: " + Arrays.toString(inputs));
-        } while (!(isBetween(Integer.parseInt(inputs[0]), 0, width)) ||
-                (!(isBetween(Integer.parseInt(inputs[1]), 0, length)) ||
-                (!(Objects.equals(inputs[2], "CLICK") || Objects.equals(inputs[2], "PLACE_FLAG")))));
+        } while (!(Utils.isBetween(Integer.parseInt(inputs[0]), 0, width)) ||
+                (!(Utils.isBetween(Integer.parseInt(inputs[1]), 0, length)) ||
+                        (!(Objects.equals(inputs[2], "CLICK") || Objects.equals(inputs[2], "PLACE_FLAG")))));
 
         int xEnteredCord = Integer.parseInt(inputs[0]);
         int yEnteredCord = Integer.parseInt(inputs[1]);
@@ -178,30 +163,13 @@ public class MineField {
             if (mineCoordiate.contains(enteredCord)) {
                 field[xEnteredCord][yEnteredCord] = "X";
                 System.out.println("Game Over!");
-                displayField();
+                Utils.displayField(length, width, field);
             } else {
-                // show num of mines around
+                // show num of mines aroundgit i
                 // check mines algo here
             }
+        } else if (inputs[2].equals("PLACE_FLAG")) {
+            field[xEnteredCord][yEnteredCord] = "X";
         }
-        else if (inputs[2].equals("PLACE_FLAG")) {
-                field[xEnteredCord][yEnteredCord] = "X";
-            }
-    }
-
-    public boolean isBetween(int value, int min, int max){
-        return ((value >= min) && (value <= max));
-    }
-
-    public static void main(String[] args) {
-
-        MineField g = new MineField(length, width, numOfMine);
-        g.displayField();
-
-        System.out.println("Enter length, width, and action (CLICK or PLACE_FLAG) seperated with a space.");
-
-        g.enter();
-
-
     }
 }
